@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import SquareProvider from "@/lib/providers/square"
 import config from "@/config"
 
-export default NextAuth({
+const handler = NextAuth({
   providers: [
     SquareProvider({
       clientId: config.square.APPLICATION_ID,
@@ -10,5 +10,6 @@ export default NextAuth({
     }),
   ],
   secret: config.nextauth.secret,
-  debug: true,
 })
+
+export { handler as GET, handler as POST }

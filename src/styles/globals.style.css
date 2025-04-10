@@ -1,29 +1,46 @@
 :root {
-    --max-width: 1100px;
-    --border-radius: 12px;
-    ::-webkit-scrollbar {
-        height: 4px;
-        width: 4px;
-        border-radius: 34px;
-    }
-    ::-webkit-scrollbar-track {
-        width: 4px;
-        height: 4px;
-        background: #f1f1f1;
-        border-radius: 34px;
-    }
-    ::-webkit-scrollbar-thumb {
-        width: 4px;
-        height: 4px;
-        background: #888;
-        border-radius: 34px;
-    }
+  --max-width: 1100px;
+  --border-radius: 12px;
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+    border-radius: 34px;
+  }
+  ::-webkit-scrollbar-track {
+    width: 4px;
+    height: 4px;
+    background: #f1f1f1;
+    border-radius: 34px;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 4px;
+    background: #888;
+    border-radius: 34px;
+  }
+  .ant-menu-horizontal {
+    border-radius: 8;
+  }
 }
 
-html, body {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%
+html,
+body {
+  background-color: "#191724";
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.logo {
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: rotate(45deg);
+}
+
+*:focus {
+  outline: none;
 }

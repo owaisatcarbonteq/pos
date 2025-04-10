@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt"
 import type { NextRequest } from "next/server"
 import nextauth from "@/config/nextauth"
 
-const PROTECTED_PATHS = ["/admin"]
+const PROTECTED_PATHS = ["/main"]
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
 
   if (isAuthPage) {
     if (isAuth) {
-      return NextResponse.redirect(new URL("/", request.url))
+      return NextResponse.redirect(new URL("/main", request.url))
     }
     return NextResponse.next()
   }
@@ -34,5 +34,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/auth/:path*"],
+  matcher: ["/main/:path*", "/auth/:path*"],
 }

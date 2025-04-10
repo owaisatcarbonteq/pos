@@ -81,8 +81,10 @@ const SquareProvider = (config: {
   },
   style: {
     bg: "#FFF",
+    bgDark: "#000",
     text: "#000",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/3/30/Square%2C_Inc._-_Square_logo.svg",
+    textDark: "#FFF",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Square%2C_Inc._logo.svg",
   },
   ...config,
 })

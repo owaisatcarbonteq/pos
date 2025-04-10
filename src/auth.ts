@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import SquareProvider from "@/lib/providers/square"
+import SquareProvider from "@/lib/auth/square.provider"
 import config from "@/config"
 
 export const authProviders = [

@@ -1,0 +1,10 @@
+.logo-wrapper {
+  justify-content: flex-end;
+  display: flex;
+}
+
+@media (max-width: 576px) {
+  .logo-wrapper {
+    justify-content: center;
+  }
+}

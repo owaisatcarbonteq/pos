@@ -2,7 +2,7 @@
 
 import { logInAction } from "@/actions/auth.action"
 import { FC } from "react"
-import { Button, Flex, Image, Typography } from "antd"
+import { Button, Flex, Image, theme } from "antd"
 import { OAuthProviderButtonStyles } from "next-auth/providers/index"
 
 type LogInProps = {
@@ -21,26 +21,35 @@ const LoginContainer: FC<LogInProps> = ({ providers }: LogInProps) => {
       vertical
       gap="small"
       style={{
-        width: "fit-content",
+        width: "100%",
         height: "fit-content",
       }}
     >
-      <Typography.Text>Sign In with</Typography.Text>
       {Object.values(providers || []).map((provider) => (
         <Button
           block
-          icon={<Image src={provider.style?.logo} style={{ height: "20px" }} />}
+          icon={
+            <Image
+              src={provider.style?.logo}
+              style={{
+                height: "30px",
+                filter:
+                  "brightness(0) invert(78%) sepia(7%) saturate(1109%) hue-rotate(314deg) brightness(105%) contrast(84%)",
+              }}
+              preview={false}
+            />
+          }
           size="large"
           key={provider.id}
-          type="primary"
+          type="dashed"
           onClick={() => submit(provider.id)}
           style={{
-            backgroundColor: provider.style?.bg,
-            color: provider.style?.text,
+            color: provider.style?.textDark,
+            borderRadius: 8,
+            width: "100%",
+            padding: 36,
           }}
-        >
-          {provider.name}
-        </Button>
+        />
       ))}
     </Flex>
   )

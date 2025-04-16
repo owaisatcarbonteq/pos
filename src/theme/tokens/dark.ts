@@ -12,8 +12,8 @@ const colors: ThemeConfig["token"] = {
   colorPrimaryTextHover: "#ebbcba",
   colorTextSecondary: "#908caa",
   colorTextDisabled: "#6e6a86",
-  colorPrimary: "#ebbcba",
-  colorPrimaryHover: "#c4a7e7",
+  colorPrimary: "#c4a7e7",
+  colorPrimaryHover: "#ebbcba",
   colorPrimaryActive: "#9ccfd8",
   colorSuccess: "#9ccfd8",
   colorSuccessBg: "rgba(156, 207, 216, 0.2)",
@@ -54,6 +54,9 @@ export const darkTheme: ThemeConfig = {
   components: {
     Button: {
       fontSize: globalTokens.fontSizeLG,
+      colorLink: token.colorPrimary,
+      colorLinkHover: token.colorPrimaryHover,
+      colorLinkActive: token.colorPrimaryActive,
     },
     Layout: {
       headerHeight: 86,
@@ -65,6 +68,10 @@ export const darkTheme: ThemeConfig = {
     },
     Menu: {
       itemBg: token.colorBgBase,
+    },
+    Divider: {
+      colorSplit: token.colorPrimary,
+      fontSize: 30,
     },
   },
 }

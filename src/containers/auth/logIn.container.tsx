@@ -2,7 +2,7 @@
 
 import { logInAction } from "@/actions/auth.action"
 import { FC } from "react"
-import { Button, Flex, Image, theme } from "antd"
+import { Button, Flex, Image } from "antd"
 import { OAuthProviderButtonStyles } from "next-auth/providers/index"
 
 type LogInProps = {
@@ -34,7 +34,7 @@ const LoginContainer: FC<LogInProps> = ({ providers }: LogInProps) => {
               style={{
                 height: "30px",
                 filter:
-                  "brightness(0) invert(78%) sepia(7%) saturate(1109%) hue-rotate(314deg) brightness(105%) contrast(84%)",
+                  "brightness(0) invert(64%) sepia(87%) saturate(151%) hue-rotate(224deg) brightness(93%) contrast(94%);",
               }}
               preview={false}
             />

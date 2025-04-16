@@ -7,6 +7,9 @@ import { theme } from "@/theme"
 import { AntdStylesProvider } from "@/providers/antd-styles.provider"
 import { SessionProvider } from "@/providers/session.provider"
 import { getServerSession } from "next-auth"
+import { TSQProvider } from "@/providers/query.provider"
+import { SearchProvider } from "@/providers/search.provider"
+import { CartProvider } from "@/providers/cart.provider"
 
 const monaSans = Mona_Sans({
   subsets: ["latin"],
@@ -34,7 +37,13 @@ export default async function RootLayout({
           <AntdStylesProvider>
             <ConfigProvider theme={theme.darkTheme}>
               <App>
-                <AntdRegistry>{children}</AntdRegistry>
+                <TSQProvider>
+                  <AntdRegistry>
+                    <SearchProvider>
+                      <CartProvider>{children}</CartProvider>
+                    </SearchProvider>
+                  </AntdRegistry>
+                </TSQProvider>
               </App>
             </ConfigProvider>
           </AntdStylesProvider>

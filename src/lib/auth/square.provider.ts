@@ -11,7 +11,8 @@ const SquareProvider = (config: {
   authorization: {
     url: "https://connect.squareupsandbox.com/oauth2/authorize",
     params: {
-      scope: "MERCHANT_PROFILE_READ PAYMENTS_READ",
+      scope:
+        "CUSTOMERS_READ CUSTOMERS_WRITE ITEMS_READ MERCHANT_PROFILE_READ PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS PAYMENTS_WRITE PAYMENTS_READ",
     },
   },
   token: {
@@ -33,7 +34,7 @@ const SquareProvider = (config: {
             grant_type: "authorization_code",
             redirect_uri: provider.callbackUrl,
           }),
-        },
+        }
       )
 
       const data = await response.json()
@@ -54,19 +55,6 @@ const SquareProvider = (config: {
   },
   userinfo: {
     url: "https://connect.squareupsandbox.com/v2/merchants/me",
-    async request(context) {
-      const { tokens } = context
-      const response = await fetch(
-        "https://connect.squareupsandbox.com/v2/merchants/me",
-        {
-          headers: {
-            Authorization: `Bearer ${tokens.access_token}`,
-            Accept: "application/json",
-          },
-        },
-      )
-      return response.json()
-    },
   },
   profile({ merchant }) {
     return {

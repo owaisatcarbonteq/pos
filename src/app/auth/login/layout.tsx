@@ -1,5 +1,5 @@
-import { Logo } from "@/components/Logo"
-import { RoseBird } from "@/components/RoseBird"
+import { Logo } from "@/components/base/Logo"
+import { RoseBird } from "@/components/base/RoseBird"
 import { Col, Flex, Row } from "antd"
 import { ReactNode } from "react"
 import "@/styles/login.style.css"

@@ -2,13 +2,16 @@
 
 import { logOutAction } from "@/actions/auth.action"
 import { LogoutOutlined } from "@ant-design/icons"
-import Link from "antd/es/typography/Link"
+import { Button } from "antd"
 
 export const LogOutButton = () => {
   const handleLogOut = async () => await logOutAction()
   return (
-    <Link onClick={handleLogOut} style={{ fontSize: 26, color: "#ebbcba" }}>
-      <LogoutOutlined />
-    </Link>
+    <Button
+      type="link"
+      onClick={handleLogOut}
+      icon={<LogoutOutlined />}
+      style={{ fontSize: 26 }}
+    />
   )
 }

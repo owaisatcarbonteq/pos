@@ -1,8 +1,8 @@
-import { Space } from "antd"
+import ProductContainer from "@/containers/square/product.container"
 import { NextPage } from "next"
 
 const Main: NextPage = () => {
-  return <Space>Protected Route</Space>
+  return <ProductContainer />
 }
 
 export default Main

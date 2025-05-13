@@ -1,59 +1,59 @@
-import { Col, Divider, Flex, Row, Space } from "antd"
+import { Affix, Col, Divider, Flex, Space } from "antd"
 import { Header } from "antd/es/layout/layout"
 import { Logo } from "../base/Logo"
-import { SearchBar } from "../../containers/SearchBar"
-import { LogOutButton } from "../base/LogOutButton"
-import { ItemType } from "antd/es/menu/interface"
-import { ShoppingCartButton } from "../../containers/ShoppingCartButton"
+import { SearchBar } from "../../containers/searchBar.container"
+import { LogoutContainer } from "../../containers/auth/logout.container"
+import { CartButtonContainer } from "../../containers/cart/cartButton.container"
 
-export const AppHeader = ({ menuItems }: { menuItems: ItemType[] }) => {
+export const AppHeader = () => {
   return (
-    <Header
-      style={{
-        display: "flex",
-        position: "sticky",
-        top: 0,
-        zIndex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        margin: 0,
-        padding: 0,
-      }}
-    >
-      <Space
-        style={{
-          alignItems: "center",
-          backgroundColor: "#191724",
-          width: "fit-content",
-          height: "fit-content",
-          paddingLeft: 40,
-          paddingRight: 20,
-          flexWrap: "nowrap",
-          gap: 10,
-        }}
-      >
-        <Col>
-          <Logo />
-        </Col>
-        <Col>
-          <SearchBar />
-        </Col>
-      </Space>
-      <Flex
+    <Affix offsetTop={4} style={{ backgroundColor: "#191724" }}>
+      <Header
         style={{
           display: "flex",
           flexDirection: "row",
-          paddingLeft: 20,
-          paddingRight: 40,
+          justifyContent: "space-between",
           alignItems: "center",
-          gap: 12,
+          margin: 12,
+          marginTop: 8,
+          padding: 0,
+          border: "solid",
+          borderWidth: 1,
+          borderRadius: 8,
+          boxShadow: "0px 10px 30px #191724, 0px -10px 30px #191724",
         }}
       >
-        <ShoppingCartButton />
-        <Divider type="vertical" />
-        <LogOutButton />
-      </Flex>
-    </Header>
+        <Space
+          style={{
+            alignItems: "center",
+            width: "fit-content",
+            height: "fit-content",
+            paddingLeft: 20,
+            flexWrap: "nowrap",
+            gap: 10,
+          }}
+        >
+          <Col>
+            <Logo />
+          </Col>
+          <Col>
+            <SearchBar />
+          </Col>
+        </Space>
+        <Flex
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingRight: 20,
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <CartButtonContainer />
+          <Divider type="vertical" />
+          <LogoutContainer />
+        </Flex>
+      </Header>
+    </Affix>
   )
 }

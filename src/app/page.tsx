@@ -1,17 +1,27 @@
 "use client"
 
-import { Space, theme } from "antd"
+import { Flex, Spin, theme } from "antd"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 export default function Home() {
   const { token } = theme.useToken()
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace("/home")
+  }, [router])
+
   return (
-    <Space
+    <Flex
+      justify="space-around"
+      align="center"
       style={{
         backgroundColor: token.colorBgBase,
         height: "100vh",
         width: "100vw",
       }}
     >
-      Home
-    </Space>
+      <Spin />
+    </Flex>
   )
 }

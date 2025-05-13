@@ -1,6 +1,7 @@
+import "@ant-design/v5-patch-for-react-19"
+import "@/styles/globals.style.css"
 import type { Metadata } from "next"
 import { Mona_Sans, JetBrains_Mono } from "next/font/google"
-import "@/styles/globals.style.css"
 import { AntdRegistry } from "@ant-design/nextjs-registry"
 import { App, ConfigProvider } from "antd"
 import { theme } from "@/theme"
@@ -10,6 +11,7 @@ import { getServerSession } from "next-auth"
 import { TSQProvider } from "@/providers/query.provider"
 import { SearchProvider } from "@/providers/search.provider"
 import { CartProvider } from "@/providers/cart.provider"
+import { OrderProvider } from "@/providers/order.provider"
 
 const monaSans = Mona_Sans({
   subsets: ["latin"],
@@ -32,6 +34,7 @@ export default async function RootLayout({
   const session = await getServerSession()
   return (
     <html lang="en">
+      {/* <ReactScanDebug /> */}
       <body className={`${monaSans.className} ${jetBrainsMono.className}`}>
         <SessionProvider session={session}>
           <AntdStylesProvider>
@@ -40,7 +43,9 @@ export default async function RootLayout({
                 <TSQProvider>
                   <AntdRegistry>
                     <SearchProvider>
-                      <CartProvider>{children}</CartProvider>
+                      <CartProvider>
+                        <OrderProvider>{children}</OrderProvider>
+                      </CartProvider>
                     </SearchProvider>
                   </AntdRegistry>
                 </TSQProvider>

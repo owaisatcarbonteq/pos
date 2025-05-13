@@ -4,7 +4,7 @@ import { logOutAction } from "@/actions/auth.action"
 import { LogoutOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 
-export const LogOutButton = () => {
+export const LogoutContainer = () => {
   const handleLogOut = async () => await logOutAction()
   return (
     <Button

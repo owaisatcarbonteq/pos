@@ -9,3 +9,7 @@
 .cart-icon:active {
   color: #9ccfd8 !important;
 }
+
+.ant-select-item-option[aria-selected="true"] .discount-option {
+  color: #191724 !important;
+}

@@ -65,6 +65,7 @@ export const darkTheme: ThemeConfig = {
       footerBg: token.colorBgBase,
       footerPadding: "60px 0",
       siderBg: token.colorBgBase,
+      colorText: "rgba(196, 167, 231, 0.4)",
     },
     Menu: {
       itemBg: token.colorBgBase,
@@ -72,6 +73,39 @@ export const darkTheme: ThemeConfig = {
     Divider: {
       colorSplit: token.colorPrimary,
       fontSize: 30,
+    },
+    Select: {
+      activeOutlineColor: token.colorBgBase,
+      optionSelectedBg: token.colorPrimaryActive,
+      optionSelectedColor: token.colorBgBase,
+      colorBorder: token.colorBorderSecondary,
+      colorPrimaryHover: token.colorPrimary,
+    },
+    Card: {
+      actionsLiMargin: "0",
+      borderRadius: 4,
+    },
+    InputNumber: {
+      controlWidth: 40,
+    },
+    List: {
+      colorBorder: "rgba(256, 256, 256, 0)",
+    },
+    Skeleton: {
+      blockRadius: 8,
+      borderRadiusOuter: 8,
+      borderRadius: 8,
+      borderRadiusXS: 8,
+      borderRadiusSM: 8,
+      borderRadiusLG: 8,
+    },
+    Input: {
+      colorBgContainer: token.colorBgBase,
+      colorText: token.colorPrimary,
+      paddingInline: 4,
+      controlOutlineWidth: 0,
+      boxShadow: "none",
+      fontSize: 20,
     },
   },
 }

@@ -1,16 +1,19 @@
 "use client"
 
-import { Badge, Button, Drawer, theme } from "antd"
+import { Grid, Badge, Button, Drawer, theme } from "antd"
 import { ShoppingCartOutlined } from "@ant-design/icons"
 import "@/styles/cart.style.css"
 import { useState } from "react"
-import { useCart } from "@/hooks/cart.hook"
-import { ProductCard } from "../components/composite/ProductCard"
+import { ShoppingCart } from "../../components/composite/cart/ShoppingCart"
 
-export const ShoppingCartButton = () => {
+const { useBreakpoint } = Grid
+
+export const CartButtonContainer = () => {
   const { token } = theme.useToken()
   const [open, setOpen] = useState(false)
-  const { items, removeFromCart, clearCart } = useCart()
+
+  const screens = useBreakpoint()
+  const isMobile = !screens.md
 
   const showDrawer = () => {
     setOpen(true)
@@ -34,10 +37,20 @@ export const ShoppingCartButton = () => {
           </Badge>
         }
       />
-      <Drawer title="Cart" onClose={hideDrawer} open={open}>
-        {items.map((i) => (
-          <ProductCard product={i.product} />
-        ))}
+      <Drawer
+        title="Cart"
+        size="large"
+        onClose={hideDrawer}
+        open={open}
+        {...(isMobile && {
+          styles: {
+            body: {
+              padding: 10,
+            },
+          },
+        })}
+      >
+        <ShoppingCart />
       </Drawer>
     </>
   )

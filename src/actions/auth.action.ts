@@ -5,7 +5,7 @@ export const logInAction = async (providerId: string) => {
   try {
     await signIn(providerId, {
       redirect: true,
-      callbackUrl: "/main",
+      callbackUrl: "/home",
     })
   } catch (error) {
     if (isRedirectError(error)) throw error

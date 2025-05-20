@@ -1,15 +1,11 @@
 import { generateCheckoutLink } from "@/actions/square.action"
-import { useOrder } from "@/hooks/order.hook"
-import { Button, ButtonProps } from "antd"
+import CheckoutButton from "@/components/composite/cart/CheckoutButton"
+import { useOrderStore } from "@/store/order.store"
 import { redirect } from "next/navigation"
-import { FC, useState } from "react"
+import { useState } from "react"
 
-type TCheckoutButtonProps = Omit<
-  ButtonProps,
-  "type" | "loading" | "onClick" | "disabled"
->
-export const CheckoutButton: FC<TCheckoutButtonProps> = (props) => {
-  const { order, lineItems } = useOrder()
+export const CheckoutContainer = () => {
+  const { order, lineItems } = useOrderStore()
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleCheckout = async () => {
@@ -19,14 +15,10 @@ export const CheckoutButton: FC<TCheckoutButtonProps> = (props) => {
     setLoading(false)
   }
   return (
-    <Button
-      loading={loading}
-      onClick={handleCheckout}
-      disabled={!order}
-      type="dashed"
-      {...props}
-    >
-      Checkout
-    </Button>
+    <CheckoutButton
+      isLoading={loading}
+      isDisabled={!order}
+      handleCheckout={handleCheckout}
+    />
   )
 }

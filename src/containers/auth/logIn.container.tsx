@@ -2,10 +2,11 @@
 
 import { logInAction } from "@/actions/auth.action"
 import { FC } from "react"
-import { Button, Flex, Image } from "antd"
+import { Flex } from "antd"
 import { OAuthProviderButtonStyles } from "next-auth/providers/index"
+import ProviderButton from "@/components/composite/auth/ProviderButton"
 
-type LogInProps = {
+export type ILogInProps = {
   providers: {
     id: string
     name: string
@@ -14,7 +15,7 @@ type LogInProps = {
   }[]
 }
 
-const LoginContainer: FC<LogInProps> = ({ providers }: LogInProps) => {
+const LoginContainer: FC<ILogInProps> = ({ providers }) => {
   const submit = async (providerId: string) => await logInAction(providerId)
   return (
     <Flex
@@ -26,30 +27,7 @@ const LoginContainer: FC<LogInProps> = ({ providers }: LogInProps) => {
       }}
     >
       {Object.values(providers || []).map((provider) => (
-        <Button
-          block
-          icon={
-            <Image
-              src={provider.style?.logo}
-              style={{
-                height: "30px",
-                filter:
-                  "brightness(0) invert(64%) sepia(87%) saturate(151%) hue-rotate(224deg) brightness(93%) contrast(94%);",
-              }}
-              preview={false}
-            />
-          }
-          size="large"
-          key={provider.id}
-          type="dashed"
-          onClick={() => submit(provider.id)}
-          style={{
-            color: provider.style?.textDark,
-            borderRadius: 8,
-            width: "100%",
-            padding: 36,
-          }}
-        />
+        <ProviderButton key={provider.id} provider={provider} submit={submit} />
       ))}
     </Flex>
   )

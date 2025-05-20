@@ -1,4 +1,6 @@
-import { Affix, Col, Divider, Flex, Space } from "antd"
+"use client"
+
+import { Affix, Divider, Flex, Space } from "antd"
 import { Header } from "antd/es/layout/layout"
 import { Logo } from "../base/Logo"
 import { SearchBar } from "../../containers/searchBar.container"
@@ -9,13 +11,12 @@ export const AppHeader = () => {
   return (
     <Affix offsetTop={4} style={{ backgroundColor: "#191724" }}>
       <Header
+        className="app-header"
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          margin: 12,
-          marginTop: 8,
           padding: 0,
           border: "solid",
           borderWidth: 1,
@@ -29,21 +30,19 @@ export const AppHeader = () => {
             width: "fit-content",
             height: "fit-content",
             paddingLeft: 20,
+            paddingRight: 5,
             flexWrap: "nowrap",
             gap: 10,
           }}
         >
-          <Col>
-            <Logo />
-          </Col>
-          <Col>
-            <SearchBar />
-          </Col>
+          <Logo style={{ display: "block" }} />
         </Space>
+        <SearchBar />
         <Flex
           style={{
             display: "flex",
             flexDirection: "row",
+            paddingLeft: 5,
             paddingRight: 20,
             alignItems: "center",
             gap: 12,

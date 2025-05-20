@@ -5,31 +5,34 @@ import { CatalogItem, Discount } from "@/types/square"
 import { serializeBigInts } from "@/utils/serializeBigInts.util"
 import { QueryFunctionContext } from "@tanstack/react-query"
 import { Square } from "square"
+import { testProducts } from "../../tests/data/products"
 
 export const fetchCatalogPaginated = async ({
   pageParam = null,
   queryKey = ["", ""],
 }: QueryFunctionContext) => {
+  if (process.env.APP_ENV === "test") {
+    return testProducts
+  }
+
   const squareClient = await createSquareClient()
 
-  const [_key, query] = queryKey as [string, string]
+  const [, query] = queryKey as [string, string]
   const cursor = (pageParam as string) ?? undefined
   const params: Square.SearchCatalogObjectsRequest = {
     objectTypes: [Square.CatalogObjectType.Item],
     cursor,
-    limit: 12,
+    limit: 10,
   }
 
   if (query) {
     if (query.length >= 2) {
       const keywords = query.split(" ").filter((k) => k.length > 1)
       if (keywords.length > 0) params.query = { textQuery: { keywords } }
-    } else {
-      return
     }
   }
 
-  let items = await squareClient?.catalog.search(params)
+  const items = await squareClient?.catalog.search(params)
 
   const products = items?.objects as CatalogItem[]
 
@@ -49,7 +52,7 @@ export const fetchCatalogPaginated = async ({
         })
         const images = (mainObjectImages?.objects ??
           []) as Square.CatalogObject.Image[]
-        let variationImageObjects = variationImageIds?.length
+        const variationImageObjects = variationImageIds?.length
           ? await squareClient?.catalog.batchGet({
               objectIds: variationImageIds.map((v) => v.imageIds!).flat(),
             })
@@ -101,13 +104,17 @@ export const calculateOrder = async (
         ...i,
         appliedDiscounts:
           discounts
-            ?.filter((d) => d.appliedTo?.includes(i.uid ?? ""))
+            ?.filter((d) => d.enabledFor?.includes(i.uid ?? ""))
             .map((d) => ({
               discountUid: d.id,
               appliedMoney: d.amountMoney ?? {
                 amount: BigInt(
-                  (Number(d.percentage) / 100) *
-                    Number(i.basePriceMoney?.amount)
+                  Math.round(
+                    Number(
+                      (Number(d.percentage) / 100) *
+                        Number(i.basePriceMoney?.amount)
+                    )
+                  )
                 ),
                 currency: i.basePriceMoney?.currency,
               },
@@ -116,9 +123,15 @@ export const calculateOrder = async (
       discounts: discounts?.map((d) => ({
         uid: d.id,
         name: d.name,
-        amountMoney: d.amountMoney,
+        amountMoney: d.amountMoney && {
+          ...d.amountMoney,
+          amount:
+            BigInt(
+              Number(d.amountMoney?.amount) * (d.enabledFor?.length ?? 1)
+            ) ?? 0,
+        },
         percentage: d.percentage,
-        scope: d.appliedTo ? "LINE_ITEM" : "ORDER",
+        scope: d.enabledFor ? "LINE_ITEM" : "ORDER",
       })),
       taxes: taxes.map((t) => ({
         type: t.inclusionType,
@@ -128,7 +141,7 @@ export const calculateOrder = async (
     },
   })
 
-  return calculated?.order!
+  return calculated?.order ?? ({} as Square.Order)
 }
 
 export const fetchDiscounts = async () => {

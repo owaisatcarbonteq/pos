@@ -10,7 +10,7 @@ const LogIn: NextPage = async () => {
       providers={authOptions.providers.map((p) => ({
         id: p.id,
         name: p.name,
-        //@ts-ignore
+        //@ts-expect-error Property 'style' does not exist on type 'Provider'.
         style: p.style,
         type: p.type,
       }))}

@@ -1,28 +1,20 @@
-import {
-  Grid,
-  Flex,
-  List,
-  Select,
-  Skeleton,
-  Tag,
-  theme,
-  Typography,
-} from "antd"
-import { CheckoutButton } from "./checkoutButton.container"
+import { Flex } from "antd"
 import { useQuery } from "@tanstack/react-query"
 import { fetchDiscounts } from "@/actions/square.action"
 import { Discount } from "@/types/square"
-import { useOrder } from "@/hooks/order.hook"
-
-const { useBreakpoint } = Grid
+import { useOrder } from "@/store/order.store"
+import SelectDiscounts from "@/components/composite/cart/footer/SelectDiscounts"
+import OrderTotals from "@/components/composite/cart/footer/OrderTotals"
 
 export const CartFooter = () => {
-  const { order, lineItems, addDiscount, removeDiscount, calculating } =
-    useOrder()
-  const { token } = theme.useToken()
-
-  const screens = useBreakpoint()
-  const isMobile = !screens.md
+  const {
+    order,
+    discounts,
+    lineItems,
+    addDiscount,
+    removeDiscount,
+    calculating,
+  } = useOrder()
 
   const { data: fetchedDiscounts, isLoading } = useQuery({
     queryKey: [],
@@ -30,137 +22,38 @@ export const CartFooter = () => {
   })
 
   const handleSelect = (value: Discount["id"]) => {
-    addDiscount(fetchedDiscounts?.find((d) => d.id === value)!)
+    console.log(value)
+    let selectedDiscount =
+      fetchedDiscounts?.find((d) => d.id === value) ?? ({} as Discount)
+    if (!selectedDiscount.appliedTo) {
+      selectedDiscount.enabledFor = lineItems?.map((li) => li.uid as string)
+    } else {
+      selectedDiscount = {
+        ...selectedDiscount,
+        enabledFor: selectedDiscount.appliedTo,
+      }
+    }
+    addDiscount(selectedDiscount)
   }
 
   const handleDeselect = async (value: Discount["id"]) => {
+    const deselectedDiscount =
+      fetchedDiscounts?.find((d) => d.id === value) ?? ({} as Discount)
+    deselectedDiscount.enabledFor = undefined
     removeDiscount(value)
   }
 
-  const descriptionItems = [
-    {
-      title: "Discount",
-      value: `${(
-        parseInt(order?.netAmounts?.discountMoney?.amount?.toString() ?? "0") /
-        100
-      ).toLocaleString("en-US", { minimumFractionDigits: 2 })} ${
-        order?.netAmounts?.discountMoney?.currency ?? "$"
-      }`,
-    },
-    {
-      title: "Tax",
-      value: `${(
-        parseInt(order?.netAmounts?.taxMoney?.amount?.toString() ?? "0") / 100
-      ).toLocaleString("en-US", { minimumFractionDigits: 2 })} ${
-        order?.netAmounts?.taxMoney?.currency ?? "$"
-      }`,
-    },
-    {
-      title: "Total",
-      value: `${(
-        parseInt(order?.netAmounts?.totalMoney?.amount?.toString() ?? "0") / 100
-      ).toLocaleString("en-US", { minimumFractionDigits: 2 })} ${
-        order?.netAmounts?.totalMoney?.currency ?? "$"
-      }`,
-    },
-  ]
   return (
     <Flex vertical gap={5}>
-      <Select
-        placement="topLeft"
-        loading={isLoading}
-        onSelect={handleSelect}
-        onDeselect={handleDeselect}
-        mode="tags"
-        placeholder="Click to apply discounts.."
-        options={fetchedDiscounts
-          ?.filter((d) =>
-            d.appliedTo
-              ? lineItems
-                  ?.map((i) => i.uid)
-                  .some((v) => d.appliedTo?.includes(v ?? ""))
-              : true
-          )
-          .map((d) => ({
-            value: d.id,
-            label: d.name,
-            ...d,
-          }))}
-        menuItemSelectedIcon={false}
-        optionRender={(opt) => (
-          <Flex justify="space-between">
-            {opt.label}
-            <Flex style={{ width: "50%" }} justify="end" gap={8}>
-              <Typography.Text
-                className="discount-option"
-                style={{
-                  color: token.colorPrimaryHover,
-                  fontFamily: token.fontFamilyCode,
-                }}
-              >
-                {"Save " +
-                  (opt.data.percentage
-                    ? `${Number(opt.data.percentage)}%`
-                    : `${(
-                        Number(opt.data.amountMoney?.amount) / 100
-                      ).toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                      })} USD`) +
-                  `${opt.data.appliedTo ? " on" : ""}`}
-              </Typography.Text>
-              {opt.data.appliedTo
-                ? lineItems
-                    ?.filter((i) => opt.data.appliedTo?.includes(i.uid ?? ""))
-                    .map((i) => (
-                      <Tag key={i.uid}>
-                        {i.name ?? ""}
-                        {" ["}
-                        {i.variationName ?? ""}
-                        {"]"}
-                      </Tag>
-                    ))
-                : null}
-            </Flex>
-          </Flex>
-        )}
+      <SelectDiscounts
+        isLoading={isLoading}
+        handleSelect={handleSelect}
+        handleDeselect={handleDeselect}
+        fetchedDiscounts={fetchedDiscounts ?? []}
+        discounts={discounts ?? []}
+        lineItems={lineItems ?? []}
       />
-      <List
-        size="small"
-        style={{ width: "100%" }}
-        footer={
-          <Flex style={{ width: "100%" }}>
-            <CheckoutButton
-              style={{
-                width: "30%",
-                padding: isMobile ? 16 : 24,
-                marginLeft: "auto",
-              }}
-            />
-          </Flex>
-        }
-        bordered
-        dataSource={descriptionItems}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <Typography.Text
-                style={{
-                  color: token.colorPrimaryHover,
-                  fontFamily: token.fontFamilyCode,
-                }}
-              >
-                {calculating ? (
-                  <Skeleton.Input active size="small" style={{ height: 22 }} />
-                ) : (
-                  item.value
-                )}
-              </Typography.Text>,
-            ]}
-          >
-            <Typography.Text>{item.title}</Typography.Text>
-          </List.Item>
-        )}
-      />
+      <OrderTotals order={order!} isCalculating={calculating} />
     </Flex>
   )
 }

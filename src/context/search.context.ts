@@ -8,7 +8,7 @@ type SearchContextType = {
   UseInfiniteQueryResult<
     InfiniteData<
       | {
-          items: any
+          items: unknown[]
           cursor: string | undefined
         }
       | undefined,

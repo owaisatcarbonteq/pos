@@ -1,4 +1,4 @@
-import { AppHeader } from "@/components/composite/AppHeader"
+import { AppHeader } from "@/components/layout/AppHeader"
 import { Layout } from "antd"
 import { Content } from "antd/es/layout/layout"
 import { ReactNode } from "react"

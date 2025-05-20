@@ -19,6 +19,7 @@ export type CartItem = {
 export type Discount = Square.CatalogDiscount & {
   id: string
   appliedTo?: string[]
+  enabledFor?: string[]
 }
 
 type NonNullableItemData = NonNullable<Square.CatalogObjectItem["itemData"]>

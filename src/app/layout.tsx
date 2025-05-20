@@ -10,8 +10,6 @@ import { SessionProvider } from "@/providers/session.provider"
 import { getServerSession } from "next-auth"
 import { TSQProvider } from "@/providers/query.provider"
 import { SearchProvider } from "@/providers/search.provider"
-import { CartProvider } from "@/providers/cart.provider"
-import { OrderProvider } from "@/providers/order.provider"
 
 const monaSans = Mona_Sans({
   subsets: ["latin"],
@@ -34,7 +32,6 @@ export default async function RootLayout({
   const session = await getServerSession()
   return (
     <html lang="en">
-      {/* <ReactScanDebug /> */}
       <body className={`${monaSans.className} ${jetBrainsMono.className}`}>
         <SessionProvider session={session}>
           <AntdStylesProvider>
@@ -42,11 +39,7 @@ export default async function RootLayout({
               <App>
                 <TSQProvider>
                   <AntdRegistry>
-                    <SearchProvider>
-                      <CartProvider>
-                        <OrderProvider>{children}</OrderProvider>
-                      </CartProvider>
-                    </SearchProvider>
+                    <SearchProvider>{children}</SearchProvider>
                   </AntdRegistry>
                 </TSQProvider>
               </App>

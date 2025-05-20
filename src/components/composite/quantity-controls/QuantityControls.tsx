@@ -1,14 +1,10 @@
 "use client"
 
 import { DEBOUNCE_MS } from "@/constants"
-import {
-  DeleteOutlined,
-  LoadingOutlined,
-  MinusOutlined,
-  PlusOutlined,
-} from "@ant-design/icons"
+import { DeleteOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons"
 import { Grid, Button, Space, theme } from "antd"
 import { FC, memo, useEffect, useMemo, useState } from "react"
+import { debouncedUpdate } from "./debouncedUpdate.util"
 
 const { useBreakpoint } = Grid
 
@@ -21,7 +17,7 @@ type CartQuantityProps = {
   deleteHandler?: () => void
 }
 
-export const QuantityControl: FC<CartQuantityProps> = memo(
+const QuantityControl: FC<CartQuantityProps> = memo(
   ({
     upHandler,
     upEnabled,
@@ -72,25 +68,22 @@ export const QuantityControl: FC<CartQuantityProps> = memo(
           borderWidth: 1,
           borderColor: token.colorBorderSecondary,
           padding: isMobile ? 2 : 4,
-          margin: isMobile ? 2 : 4,
           gap: isMobile ? 2 : 4,
         }}
       >
         <Button
           type="link"
-          disabled={!upEnabled}
+          disabled={!upEnabled || handlingUp}
           onClick={handleUpClick}
-          icon={
-            handlingUp ? <LoadingOutlined spin /> : <PlusOutlined key="add" />
-          }
+          icon={<PlusOutlined key="add" />}
           style={{ backgroundColor: token.colorBorderSecondary }}
         />
         <input
           value={localQuantity}
           disabled
           style={{
-            width: isMobile ? 20 : 35,
-            height: isMobile ? 20 : 35,
+            width: isMobile ? 20 : 30,
+            height: isMobile ? 20 : 30,
             textAlign: "center",
             borderRadius: 4,
             boxShadow: "none",
@@ -101,15 +94,9 @@ export const QuantityControl: FC<CartQuantityProps> = memo(
         />
         <Button
           type="link"
-          disabled={!downEnabled || localQuantity < 1}
+          disabled={!downEnabled || localQuantity < 1 || handlingDown}
           onClick={handleDownClick}
-          icon={
-            handlingDown ? (
-              <LoadingOutlined spin />
-            ) : (
-              <MinusOutlined key="remove" />
-            )
-          }
+          icon={<MinusOutlined key="remove" />}
           style={{ backgroundColor: token.colorBorderSecondary }}
         />
         {deleteHandler && (
@@ -130,35 +117,6 @@ export const QuantityControl: FC<CartQuantityProps> = memo(
     prev.downEnabled === next.downEnabled
 )
 
-function debouncedUpdate(
-  handler: (quantity: number) => Promise<void> | void,
-  setLoading: (val: boolean) => void,
-  debounceMs = 300
-) {
-  let timeout: NodeJS.Timeout | null = null
-  let accumulated = 0
-  let inProgress = false
+QuantityControl.displayName = "QuantityControl"
 
-  return () => {
-    accumulated += 1
-
-    if (timeout) clearTimeout(timeout)
-
-    timeout = setTimeout(async () => {
-      if (inProgress || accumulated === 0) return
-
-      setLoading(true)
-      inProgress = true
-
-      const toApply = accumulated
-      accumulated = 0
-
-      try {
-        await handler(toApply)
-      } finally {
-        setLoading(false)
-        inProgress = false
-      }
-    }, debounceMs)
-  }
-}
+export default QuantityControl

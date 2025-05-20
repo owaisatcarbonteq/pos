@@ -1,16 +1,16 @@
 import { Product } from "@/types/square"
-import { QuantityControl } from "./QuantityControls"
+import QuantityControl from "../components/composite/quantity-controls/QuantityControls"
 import { FC, memo } from "react"
-import { useCart } from "@/hooks/cart.hook"
+import { useCartStore } from "@/store/cart.store"
 
-type IQuantityProps = {
+export type IItemQuantityProps = {
   selected: string | null
   product: Product
 }
 
-export const ItemQuantity: FC<IQuantityProps> = memo(
+const ItemQuantity: FC<IItemQuantityProps> = memo(
   ({ selected, product }) => {
-    const { addToCart, removeFromCart, getQuantity } = useCart()
+    const { addToCart, removeFromCart, getQuantity } = useCartStore()
     return (
       <QuantityControl
         upEnabled={!!selected}
@@ -37,5 +37,9 @@ export const ItemQuantity: FC<IQuantityProps> = memo(
       />
     )
   },
-  (prev, next) => prev.product.id !== next.product.id
+  (prev, next) => prev.selected === next.selected
 )
+
+ItemQuantity.displayName = "ItemQuantity"
+
+export default ItemQuantity

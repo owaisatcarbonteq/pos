@@ -36,12 +36,23 @@ body {
 
 .logo {
   transition: transform 0.3s;
-}
-
-.logo:hover {
-  transform: rotate(45deg);
+  transform: rotate(180deg);
 }
 
 *:focus {
   outline: none;
+}
+
+.app-header {
+  width: auto;
+  margin: 12px;
+  margin-top: 8px;
+}
+
+@media (min-width: 768px) {
+  .app-header {
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

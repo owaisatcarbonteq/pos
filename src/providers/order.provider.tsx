@@ -14,7 +14,7 @@ import {
 import { Square } from "square"
 
 export const OrderProvider = ({ children }: { children: ReactNode }) => {
-  const cartContext = useContext(CartContext) // Access cart items
+  const cartContext = useContext(CartContext)
   if (!cartContext) {
     throw new Error("OrderProvider must be used within a CartProvider")
   }

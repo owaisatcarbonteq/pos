@@ -1,7 +1,9 @@
 import nextauth from "./nextauth"
 import square from "./square"
 
-export default {
+const config = {
   square,
   nextauth,
 }
+
+export default config

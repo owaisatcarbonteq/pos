@@ -1,11 +1,6 @@
-import { Image, ImageProps } from "antd"
+import Image, { ImageProps } from "next/image"
 
 type TRoseBirdProps = Omit<ImageProps, "src" | "alt">
 export const RoseBird = (props: TRoseBirdProps) => (
-  <Image
-    src="/assets/rosebird.png"
-    alt={"rosebird"}
-    {...props}
-    preview={false}
-  />
+  <Image priority src="/assets/rosebird.png" alt={"rosebird"} {...props} />
 )

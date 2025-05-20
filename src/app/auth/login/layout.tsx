@@ -8,7 +8,7 @@ const LoginLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <Row style={{ height: "100vh" }}>
       <Col xs={0} sm={0} md={14} lg={16} xl={16}>
-        <RoseBird height="100%" style={{ objectFit: "cover" }} />
+        <RoseBird fill style={{ objectFit: "cover" }} />
       </Col>
       <Col
         xs={24}
@@ -28,7 +28,6 @@ const LoginLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
         <Flex className="logo-wrapper" style={{ width: "100%" }}>
           <Logo />
         </Flex>
-
         {children}
         <Col />
         <Col />

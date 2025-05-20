@@ -1,17 +1,16 @@
 "use client"
 
+import SearchBarInput from "@/components/composite/SearchBarInput"
 import { DEBOUNCE_MS } from "@/constants"
 import { useDebounce } from "@/hooks/debounce.hook"
-import { useSearch } from "@/hooks/search.hook"
-import { Input, theme } from "antd"
-import { FC, useEffect, useState } from "react"
+import { useSearchStore } from "@/store/search.store"
+import { ChangeEvent, FC, useEffect, useState } from "react"
 
 export const SearchBar: FC = () => {
-  const { token } = theme.useToken()
-  const { query, setQuery } = useSearch()
+  const { query, setQuery } = useSearchStore()
   const [inputValue, setInputValue] = useState(query)
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
   }
 
@@ -28,15 +27,9 @@ export const SearchBar: FC = () => {
   }, [query])
 
   return (
-    <Input
-      style={{
-        borderStyle: "none",
-        borderBottomStyle: "solid",
-        borderRadius: 0,
-        borderBottomColor: token.colorPrimary,
-      }}
-      value={inputValue}
-      onChange={handleInputChange}
+    <SearchBarInput
+      inputValue={inputValue}
+      handleInputChange={handleInputChange}
     />
   )
 }

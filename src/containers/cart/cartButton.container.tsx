@@ -1,16 +1,23 @@
 "use client"
 
-import { Grid, Badge, Button, Drawer, theme } from "antd"
-import { ShoppingCartOutlined } from "@ant-design/icons"
+import { Grid, Drawer } from "antd"
 import "@/styles/cart.style.css"
 import { useState } from "react"
-import { ShoppingCart } from "../../components/composite/cart/ShoppingCart"
+import CartButton from "@/components/base/CartButton"
+import { useCartStore } from "@/store/cart.store"
+import { ShoppingCart } from "@/components/composite/cart/ShoppingCart"
+import { useOrderStore } from "@/store/order.store"
 
 const { useBreakpoint } = Grid
 
 export const CartButtonContainer = () => {
-  const { token } = theme.useToken()
   const [open, setOpen] = useState(false)
+  const { items } = useCartStore()
+  const { discounts, removeDiscount } = useOrderStore()
+
+  const itemCount = items
+    .map((i) => i.quantity)
+    .reduce((partialSum, a) => partialSum + a, 0)
 
   const screens = useBreakpoint()
   const isMobile = !screens.md
@@ -22,21 +29,9 @@ export const CartButtonContainer = () => {
   const hideDrawer = () => {
     setOpen(false)
   }
-
   return (
     <>
-      <Button
-        type="link"
-        onClick={showDrawer}
-        icon={
-          <Badge dot color={token.colorError}>
-            <ShoppingCartOutlined
-              className="cart-icon"
-              style={{ fontSize: 30 }}
-            />
-          </Badge>
-        }
-      />
+      <CartButton itemCount={itemCount} onClick={showDrawer} />
       <Drawer
         title="Cart"
         size="large"
@@ -50,7 +45,11 @@ export const CartButtonContainer = () => {
           },
         })}
       >
-        <ShoppingCart />
+        <ShoppingCart
+          items={items}
+          discounts={discounts}
+          removeDiscount={removeDiscount}
+        />
       </Drawer>
     </>
   )

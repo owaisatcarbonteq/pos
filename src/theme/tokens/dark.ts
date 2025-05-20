@@ -102,10 +102,15 @@ export const darkTheme: ThemeConfig = {
     Input: {
       colorBgContainer: token.colorBgBase,
       colorText: token.colorPrimary,
+      paddingBlock: 8,
       paddingInline: 4,
       controlOutlineWidth: 0,
       boxShadow: "none",
-      fontSize: 20,
+      inputFontSize: 18,
+    },
+    Result: {
+      colorTextDescription: token.colorPrimaryHover,
+      colorTextHeading: token.colorPrimaryHover,
     },
   },
 }

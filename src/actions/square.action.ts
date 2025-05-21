@@ -127,7 +127,17 @@ export const calculateOrder = async (
           ...d.amountMoney,
           amount:
             BigInt(
-              Number(d.amountMoney?.amount) * (d.enabledFor?.length ?? 1)
+              Number(d.amountMoney?.amount) *
+                Number(
+                  d.enabledFor
+                    ?.map(
+                      (id) => lineItems?.find(({ uid }) => uid === id)?.quantity
+                    )
+                    .reduce(
+                      (total, quantity) => total + (Number(quantity) || 1),
+                      0
+                    )
+                )
             ) ?? 0,
         },
         percentage: d.percentage,

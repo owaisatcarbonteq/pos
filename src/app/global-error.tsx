@@ -4,8 +4,13 @@ import { Logo } from "@/components/base/Logo"
 import { RoseBird } from "@/components/base/RoseBird"
 import "@/styles/login.style.css"
 import { Col, Flex, Result, Row, Typography } from "antd"
+import * as Sentry from "@sentry/nextjs"
+import { useEffect } from "react"
 
 const GlobalError = ({ error }: { error: Error }) => {
+  useEffect(() => {
+    Sentry.captureException(error)
+  }, [error])
   return (
     <Row style={{ height: "100vh" }}>
       <Col xs={0} sm={0} md={14} lg={16} xl={16}>

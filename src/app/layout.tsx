@@ -1,6 +1,5 @@
 import "@ant-design/v5-patch-for-react-19"
 import "@/styles/globals.style.css"
-import type { Metadata } from "next"
 import { Mona_Sans, JetBrains_Mono } from "next/font/google"
 import { AntdRegistry } from "@ant-design/nextjs-registry"
 import { App, ConfigProvider } from "antd"
@@ -19,7 +18,7 @@ const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 })
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "POS App",
   description: "Point-Of-Sale app",
 }

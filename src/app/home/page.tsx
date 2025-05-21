@@ -1,7 +1,6 @@
 import CatalogContainer from "@/containers/product/catalog.container"
-import { NextPage } from "next"
 
-const Home: NextPage = () => {
+const Home = () => {
   return <CatalogContainer />
 }
 
